@@ -30,7 +30,7 @@ namespace NSTU
     {
         text = (std::string)fileNode["Text"];
 
-        // Workaround becaus cv::Rect hasn't defined read.
+        // Workaround because cv::Rect hasn't defined read.
         std::vector<int> rect;
         fileNode["Region"] >> rect;
         region = cv::Rect(rect[0], rect[1], rect[2], rect[3]);

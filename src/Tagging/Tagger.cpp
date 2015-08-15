@@ -13,7 +13,7 @@ namespace  NSTU
     // Tagger constructor ('.xml' for XML, '.yml', '.yaml' or '.txt' for YAML).
     Tagger::Tagger(const std::string& inputFilePath, const std::string& outputFilePath) : fileStorage(new cv::FileStorage(outputFilePath, cv::FileStorage::WRITE))
     {
-        // Check wheter file was successfully opened.
+        // Check whether file was successfully opened.
         if (!fileStorage->isOpened())
             throw "Cannot open output file.";
 

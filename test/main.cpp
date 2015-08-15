@@ -35,23 +35,23 @@ int main(int argc, char* argv[])
     {
     case 'i': // Process image file.
         try { NSTU::processImage(std::string(argv[2]), std::string(argv[3])); }
-        catch (char* e) { std::cout << e << std::endl; }
+        catch (char const* e) { std::cout << e << std::endl; }
         break;
 
     case 'v': // Process video file.
         try { NSTU::processVideo(std::string(argv[2]), std::string(argv[3])); }
 
-        catch (char* e) { std::cout << e << std::endl; }
+        catch (char const* e) { std::cout << e << std::endl; }
         break;
 
     case 'c': // Process cam stream.
         try { NSTU::processCamera(std::string(argv[2])); }
-        catch (char* e) { std::cout << e << std::endl; }
+        catch (char const* e) { std::cout << e << std::endl; }
         break;
 
     case 'u': // TEST: test from NSTU::Util.
         try { NSTU::Utils::test_lowRankApproxC(std::string(argv[2])); }
-        catch (char* e) { std::cout << e << std::endl; }
+        catch (char const* e) { std::cout << e << std::endl; }
         break;
 
     default: // Not a valid option.
@@ -69,7 +69,7 @@ int main()
     std::string error;
 
     // Process the multipart request.
-    MultipartRequest req("../../upload/");
+    MultipartRequest req("../../nstu/upload/");
 
     // Check for errors.
     if (req.errorCode() == MultipartRequest::MPR_NO_ERROR)
@@ -106,10 +106,10 @@ int main()
 
                 // Create the path string for the output file.
                 std::ostringstream oss;
-                oss << "../../download/" << outFileName << "_" << currentTime << ".xml";
+                oss << "../../nstu/download/" << outFileName << "_" << currentTime << ".xml";
                 std::string outFilePath = oss.str();
 
-                // Check wheter file is an image.
+                // Check whether file is an image.
                 if (std::string(pElement->type()) == std::string("image/jpeg"))
                 {
                     try
@@ -120,7 +120,7 @@ int main()
                         // If no exception was raised the operation was successful, hence download the file.
                         std::cout << "Content-disposition: attachment; filename=" << outFileName << ".xml\r\n\r\n";
 
-                        // Write XML to responce.
+                        // Write XML to response.
                         std::string line;
                         std::ifstream ifs(outFilePath);
                         while (std::getline(ifs, line))
@@ -133,7 +133,7 @@ int main()
                     // Set the error code to the raised exception.
                     catch (char* e) { error = std::string(e); }
                 }
-                
+
                 // Check whether file is a video.
                 else if (std::string(pElement->type()) == std::string("video/avi"))
                 {
@@ -168,7 +168,7 @@ int main()
             else
                 error = "File not valid.";
         }
-        
+
         // Inform that the file was not found.
         else
             error = "File not found.";
@@ -179,11 +179,11 @@ int main()
     {
         switch(req.errorCode())
         {
-        case MultipartRequest::IO_ERROR: // I/O error occured.
+        case MultipartRequest::IO_ERROR: // I/O error occurred.
             error = "IO error.";
             break;
 
-        case MultipartRequest::PARSE_ERROR: // Multipar request parse error.
+        case MultipartRequest::PARSE_ERROR: // Multipart request parse error.
             error = "Parse error.";
             break;
 
@@ -196,14 +196,14 @@ int main()
             break;
         }
     }
-    
+
     // Send error as HTML page to the browser.
     std::cout << "Content-type:text/html\r\n\r\n";
     std::cout << "<!DOCTYPE html>\n";
     std::cout << "<html lang=\"en\">\n";
     std::cout << "<head>\n";
     std::cout << "<title>NSTU</title>\n";
-    std::cout << "<link href=\"../../images/favicon.ico?v=1\" rel=\"shortcut icon\" />\n";
+    std::cout << "<link href=\"../../nstu/images/favicon.ico?v=1\" rel=\"shortcut icon\" />\n";
     std::cout << "</head>\n";
     std::cout << "<body>\n";
     std::cout << "<p>\n";
@@ -272,7 +272,7 @@ int main()
         std::cout << fileName << std::endl;
 #endif
 
-        // Check wheter parsing was successful.
+        // Check whether parsing was successful.
         if (option.length() == 1 && fileName != "")
         {
             // Create a string representing the current date and time.
@@ -337,7 +337,7 @@ int main()
             std::cout << "Invalid data." << std::endl;
     }
 
-    // Wait for keypress.
+    // Wait for key press.
 #ifdef NSTU_DEBUG
     getchar();
 #endif
@@ -351,8 +351,3 @@ int main()
 }
 
 #endif
-
-// C++11 features not supported by VS12:
-//auto vec = std::vector<int>({2, 4, 6, 8, 10});
-//std::initializer_list
-//for (int i : {-1, -2, -3}) std::cout << i << std::endl;

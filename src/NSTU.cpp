@@ -25,7 +25,14 @@ namespace NSTU
     void processMat(const cv::Mat& image, int frameCount, TextDetection::TextDetector& textDetector, tesseract::TessBaseAPI& tessBaseApi, Tagger& tagger)
     {
         // DEBUG: copy image for displaying detected regions.
+#ifdef NSTU_DEBUG
         auto copy = image.clone();
+#endif
+
+        // Increase image brightness (to be adjusted depending on stream input).
+        double alpha = 1.5; // 0-3
+        double beta = 50; // 0-100
+        image.convertTo(image, -1, alpha, beta);
 
         // Find all text regions.
         for (auto& region : textDetector.getTextRegions(image, TextDetection::TextDetector::Algorithm::TiRG))
@@ -55,11 +62,16 @@ namespace NSTU
 
             // Get the recognized text.
             auto text = std::string(tessBaseApi.GetUTF8Text());
+
+            // WORKAROUND: ignore string with special characters.
             if (text.length() > 0 && text.find("[") == std::string::npos && text.find("]") == std::string::npos && text.find("{") == std::string::npos && text.find("}") == std::string::npos)
+            {
+                // Remove trailing newlines.
                 text = text.substr(0, text.length() - 2);
 
-            // Tag text region.
-            tagger.addTextTag(text, region, frameCount);
+                // Tag text region.
+                tagger.addTextTag(text, region, frameCount);
+            }
 
             // DEBUG: add a green rectangle and the recognized text for this region in the frame.
 #ifdef NSTU_DEBUG
@@ -102,7 +114,7 @@ namespace NSTU
 
         // DEBUG: let show debug image.
 #ifdef NSTU_DEBUG
-        cv::waitKey();
+        while (cv::waitKey() != 'q');
 #endif
     }
 
@@ -148,7 +160,7 @@ namespace NSTU
 
                 // Wait until key press.
 #ifdef NSTU_DEBUG
-                if (cv::waitKey(25) >= 0)
+                if (cv::waitKey(25) == 'q')
                     break;
 #endif
             }
@@ -205,7 +217,7 @@ namespace NSTU
                 processMat(frame, frameCount, textDetector, tessBaseApi, tagger);
 
                 // Wait until key press.
-                if (cv::waitKey(25) >= 0)
+                if (cv::waitKey(25) == 'q')
                     break;
             }
         }

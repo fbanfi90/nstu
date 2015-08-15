@@ -83,4 +83,4 @@ obj/Utils.o: src/Utils/Utils.cpp
 	$(CC) $(CFLAGSC) -Iinclude src/Utils/Utils.cpp -o$@
 
 clean:
-	rm -rf *o $(NAME)
+	rm -rf obj/* bin/$(NAME)

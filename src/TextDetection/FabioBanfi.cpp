@@ -4,6 +4,7 @@
 #include <iostream>
 #include <limits>
 #include <vector>
+#include <exception>
 
 // OpenCV.
 #include <opencv2/core/core.hpp>
@@ -37,7 +38,7 @@ namespace NSTU
                 cv::imshow("SWT2", swt2);
 
                 // Associate pixels to form connected components.
-                auto components = associate(swt1);
+            //    auto components = associate(swt1);
 
                 // Return the detected text regions.
                 return std::vector<cv::Rect>();
@@ -46,17 +47,17 @@ namespace NSTU
             // Stroke width transform (SWT).
             cv::Mat SWT(const cv::Mat& image, bool darkOnLight, float precision)
             {
-                // Convert the original image to a new grayscale image.
+                // Convert the original image to a new grey scale image.
                 cv::Mat gray(image.size(), CV_8U);
                 cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
-                //cv::imshow("Gray", gray);
+                cv::imshow("Gray", gray);
 
                 // Detect images's edges.
                 cv::Mat edges(image.size(), CV_8U);
                 cv::Canny(gray, edges, 150., 400.); //175., 320.
-                //cv::imshow("Edges", edges);//
+                cv::imshow("Edges", edges);//
 
-                // Smooth the grayscale image.
+                // Smooth the grey scale image.
                 cv::Mat smoothed = cv::Mat(image.size(), CV_32F);
                 gray.convertTo(smoothed, CV_32F, 1. / 255.);
                 cv::GaussianBlur(smoothed, smoothed, cv::Size(5, 5), 0);
@@ -84,7 +85,7 @@ namespace NSTU
                     // Loop across each column.
                     for (int col = 0; col < image.cols; ++col)
                     {
-                        // Check wheter the pixel is an edge.
+                        // Check whether the pixel is an edge.
                         if (edges.at<uchar>(row, col) == 0xFFu)
                         {
                             // The ray to be computed for this pixel.
@@ -222,7 +223,7 @@ namespace NSTU
                         else
                             swt.at<float>(row, col) = (swt.at<float>(row, col) - minVal) / difference;
 
-                // Convert SWT image from 32 bit float to 8 bit grayscale.
+                // Convert SWT image from 32 bit float to 8 bit grey scale.
                 swt.convertTo(swt, CV_8U, 255.);
 
                 return swt;
@@ -265,7 +266,7 @@ namespace NSTU
                         {
                             // Get the value of this pixel.
                             float value = swt.at<float>(row, col);
-
+try{/* WORKAROUND */
                             // check pixel to the right, right-down, down, left-down
                             int thisPixel = map[row * swt.cols + col];
 
@@ -296,6 +297,7 @@ namespace NSTU
                                         boost::add_edge(thisPixel, map.at((row+1) * swt.cols + col - 1), g);
                                 }
                             }
+}catch(std::exception e){}/* WORKAROUND */
                         }
                     }
                 }

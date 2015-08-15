@@ -31,7 +31,7 @@ namespace  NSTU
             // The output video stream.
             cv::VideoWriter out(fileName, CV_FOURCC_PROMPT, capture.get(CV_CAP_PROP_FPS), size);
 
-            // Check wheter out stream is open.
+            // Check whether out stream is open.
             if (!out.isOpened())
                 throw "Could not find an appropriate codec.";
 
@@ -52,7 +52,7 @@ namespace  NSTU
                     cv::imshow("Register", frame);
 
                     // Wait until key press.
-                    if (cv::waitKey(25) >= 0)
+                    if (cv::waitKey(25) == 'q')
                         break;
                 }
             }
@@ -60,13 +60,13 @@ namespace  NSTU
 
         /* SVD */
 
-        // Perform a low rank approximation of grayscale image using SVD.
+        // Perform a low rank approximation of grey scale image using SVD.
         cv::Mat lowRankApproxG(const cv::Mat& image, int rank)
         {
             // Get the smaller matrix dimension (maximal possible rank).
             auto n = std::min(image.rows, image.cols);
 
-            // Get a gray-scale float matrix copy of the image.
+            // Get a grey scale float matrix copy of the image.
             cv::Mat copy;
             cv::cvtColor(image, copy, CV_BGR2GRAY);
             copy.convertTo(copy, CV_32FC1, 1. / 255.);
@@ -83,46 +83,46 @@ namespace  NSTU
             return svd.u(cv::Range::all(), cv::Range(0, rank)) * s(cv::Range(0, rank), cv::Range(0, rank)) * svd.vt(cv::Range(0, rank), cv::Range::all());
         }
 
-        // Perform a low rank approximation of color image using SVD.
+        // Perform a low rank approximation of colour image using SVD.
         cv::Mat lowRankApproxC(const cv::Mat& image, int rank)
         {
             throw "Function not implemented yet.";
         }
 
-        // TEST: show a low rank approximation of grayscale image using SVD.
+        // TEST: show a low rank approximation of grey scale image using SVD.
         void test_lowRankApproxG(std::string fileName, int rank)
         {
-            // Open file by default as color image.
+            // Open file by default as colour image.
             auto image = cv::imread(fileName);
 
             // Check whether the file was a valid image.
             if (image.data == nullptr)
                 throw "Could not open or find image file.";
 
-            // Show the r-rank grayscale approximation of the image.
+            // Show the r-rank grey scale approximation of the image.
             cv::imshow("", lowRankApproxG(image, rank));
-            cv::waitKey();
+            while (cv::waitKey() != 'q');
         }
 
-        // TEST: show a low rank approximation of color image using SVD.
+        // TEST: show a low rank approximation of colour image using SVD.
         void test_lowRankApproxC(std::string fileName, int rank)
         {
-            // Open file by default as color image.
+            // Open file by default as colour image.
             auto image = cv::imread(fileName);
 
             // Check whether the file was a valid image.
             if (image.data == nullptr)
                 throw "Could not open or find image file.";
 
-            // Show the r-rank color approximation of the image.
+            // Show the r-rank colour approximation of the image.
             cv::imshow("", lowRankApproxC(image, rank));
-            cv::waitKey();
+            while (cv::waitKey() != 'q');
         }
 
-        // TEST: demonstration of low rank grayscale image approximation using SVD.
+        // TEST: demonstration of low rank grey scale image approximation using SVD.
         void test_lowRankApproxG(std::string fileName)
         {
-            // Open file as gray-scale image.
+            // Open file as grey scale image.
             auto image = cv::imread(fileName, CV_LOAD_IMAGE_GRAYSCALE);
 
             // Check whether the file was a valid image.
@@ -156,8 +156,8 @@ namespace  NSTU
                 // Print compression percentage.
                 std::cout << " (" <<  static_cast<float>(r) * (image.rows + image.cols + 1.) / (image.rows * image.cols) * 100. << "%)";
 
-                // Wait for keypress and terminate if was 'esc'.
-                if (cv::waitKey() == 27)
+                // Wait for key press and terminate if was 'q'.
+                if (cv::waitKey() == 'q')
                 {
                     std::cout << std::endl;
                     return;
@@ -168,10 +168,10 @@ namespace  NSTU
             std::cout << std::endl;
         }
 
-        // TEST: demonstration of low rank color image approximation using SVD.
+        // TEST: demonstration of low rank colour image approximation using SVD.
         void test_lowRankApproxC(std::string fileName)
         {
-            // Open file as color image.
+            // Open file as colour image.
             auto image = cv::imread(fileName);
 
             // Check whether the file was a valid image.
@@ -200,13 +200,13 @@ namespace  NSTU
             cv::SVD svdG(rgb[1], cv::SVD::MODIFY_A);
             cv::SVD svdB(rgb[0], cv::SVD::MODIFY_A);
 
-            // Reset color image matrix.
+            // Reset colour image matrix.
             image = cv::Mat(image.size(), CV_32FC3);
 
             // Perform sum of 1-rank approximation matrices.
             for (auto r = 1; r <= n; ++r)
             {
-                // Reset rgb vector.
+                // Reset RGB vector.
                 rgb.clear();
 
                 // Reconstruct RGB components.
@@ -232,8 +232,8 @@ namespace  NSTU
                 // Print compression percentage.
                 std::cout << " (" <<  static_cast<float>(r) * (image.rows + image.cols + 1.) / (image.rows * image.cols) * 100. << "%)";
 
-                // Wait for keypress and terminate if was 'esc'.
-                if (cv::waitKey() == 27)
+                // Wait for key press and terminate if was 'q'.
+                if (cv::waitKey() == 'q')
                     break;;
             }
 
@@ -241,10 +241,10 @@ namespace  NSTU
             std::cout << std::endl;
         }
 
-        // TEST: demonstration of grayscale image reconstruction using SVD.
+        // TEST: demonstration of grey scale image reconstruction using SVD.
         void test_svdG(std::string fileName)
         {
-            // Open file as grayscale image.
+            // Open file as grey scale image.
             auto image = cv::imread(fileName, CV_LOAD_IMAGE_GRAYSCALE);
 
             // Check whether the file was a valid image.
@@ -270,13 +270,13 @@ namespace  NSTU
 
             // Show reconstructed image.
             cv::imshow("SVD", result);
-            cv::waitKey();
+            while (cv::waitKey() != 'q');
         }
 
         // TEST: split image into RGB and SVD and reconstruct it.
         void test_svdC(std::string fileName)
         {
-            // Open file as color image.
+            // Open file as colour image.
             auto image = cv::imread(fileName);
 
             // Check whether the file was a valid image.
@@ -314,7 +314,7 @@ namespace  NSTU
                 sB.at<cv::Vec<float, 1>>(i, i) = svdB.w.at<cv::Vec<float, 1>>(i);
             }
 
-            // Reset rgb vector.
+            // Reset RGB vector.
             rgb.clear();
 
             // Reconstruct RGB components.
@@ -332,7 +332,7 @@ namespace  NSTU
 
             // Show reconstructed image.
             cv::imshow("RGB", image);
-            cv::waitKey();
+            while (cv::waitKey() != 'q');
         }
 
         // TEST: split camera stream into RGB channels.
@@ -364,7 +364,7 @@ namespace  NSTU
                     // Empty matrix of the same size as frame.
                     cv::Mat R, G, B, empty = cv::Mat::zeros(frame.size(), CV_8U);
 
-                    // Vector containing the channels of the new colored image.
+                    // Vector containing the channels of the new coloured image.
                     std::vector<cv::Mat> channels;
 
                     // Construct red image.
@@ -388,13 +388,13 @@ namespace  NSTU
                     cv::merge(channels, B);
 
                     // Show all images.
-                    cv::imshow("Orginal", frame);
+                    cv::imshow("Original", frame);
                     cv::imshow("R", R);
                     cv::imshow("G", G);
                     cv::imshow("B", B);
 
                     // Wait until key press.
-                    if (cv::waitKey(25) >= 0)
+                    if (cv::waitKey(25) == 'q')
                         break;
                 }
             }
