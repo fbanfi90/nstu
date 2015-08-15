@@ -1,5 +1,5 @@
 // Source: http://tirg.sourceforge.net/.
-// Lines adapted for VS12: 49-54, 154-157, 159-164.
+// Adapted lines: 49-54, 154-157, 159-164.
 #include <math.h>
 #include <stdio.h>
 #include <algorithm>

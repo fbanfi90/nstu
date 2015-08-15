@@ -91,7 +91,7 @@ namespace NSTU
     // Open an image file and extract text from it.
     void processImage(const std::string& inputFilePath, const std::string& outputFilePath)
     {
-        // Open file by default as color image.
+        // Open file by default as colour image.
         auto image = cv::imread(inputFilePath);
 
         // Check whether the file was a valid image.

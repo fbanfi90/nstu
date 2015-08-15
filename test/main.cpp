@@ -21,7 +21,7 @@
 int main(int argc, char* argv[])
 {
     std::cout << std::endl << "NSTU v" << VERSION << std::endl;
-    std::cout << "Copyright (C) 2013 Fabio M. Banfi (fbanfi90@gmail.com)" << std::endl << std::endl;
+    std::cout << "Copyright (C) 2013-15 Fabio M. Banfi (fbanfi90@gmail.com)" << std::endl << std::endl;
 
     // Make sure the right number of parameters has been passed.
     if (!(argc == 3 && strlen(argv[1]) >= 2 && (argv[1][1] == 'c' || argv[1][1] == 'u') || argc == 4 && strlen(argv[1]) >= 2 && (argv[1][1] == 'i' || argv[1][1] == 'v')))
