@@ -31,14 +31,18 @@ namespace NSTU
             {
                 // Perform SWT for dark text on light background.
                 auto swt1 = SWT(image, true, 1.f);
+#ifdef NSTU_DEBUG
                 cv::imshow("SWT1", swt1);
+#endif
 
                 // Perform SWT for light text on dark background.
                 auto swt2 = SWT(image, false, 1.f);
+#ifdef NSTU_DEBUG
                 cv::imshow("SWT2", swt2);
+#endif
 
                 // Associate pixels to form connected components.
-            //    auto components = associate(swt1);
+//                auto components = associate(swt1);
 
                 // Return the detected text regions.
                 return std::vector<cv::Rect>();
@@ -50,18 +54,24 @@ namespace NSTU
                 // Convert the original image to a new grey scale image.
                 cv::Mat gray(image.size(), CV_8U);
                 cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
-                cv::imshow("Gray", gray);
+#ifdef NSTU_DEBUG
+                //cv::imshow("Gray", gray);
+#endif
 
                 // Detect images's edges.
                 cv::Mat edges(image.size(), CV_8U);
                 cv::Canny(gray, edges, 150., 400.); //175., 320.
-                cv::imshow("Edges", edges);//
+#ifdef NSTU_DEBUG
+                cv::imshow("Edges", edges);
+#endif
 
                 // Smooth the grey scale image.
                 cv::Mat smoothed = cv::Mat(image.size(), CV_32F);
                 gray.convertTo(smoothed, CV_32F, 1. / 255.);
                 cv::GaussianBlur(smoothed, smoothed, cv::Size(5, 5), 0);
+#ifdef NSTU_DEBUG
                 //cv::imshow("Smoothed", smoothed);
+#endif
 
                 // Create Y and Y gradients.
                 cv::Mat gradientX(image.size(), CV_32F, cv::Scalar(1.));
@@ -70,8 +80,10 @@ namespace NSTU
                 cv::Sobel(smoothed, gradientY, CV_32F, 0, 1);
                 //cv::Scharr(smoothed, gradientX, CV_32F, 1, 0);
                 //cv::Scharr(smoothed, gradientY, CV_32F, 0, 1);
+#ifdef NSTU_DEBUG
                 //cv::imshow("Gradient X", gradientX);
                 //cv::imshow("Gradient Y", gradientY);
+#endif
 
                 // Initialize SWT output image, each pixel set to infinity by default.
                 cv::Mat swt(image.size(), CV_32F, cv::Scalar(-1.));
@@ -266,7 +278,7 @@ namespace NSTU
                         {
                             // Get the value of this pixel.
                             float value = swt.at<float>(row, col);
-try{/* WORKAROUND */
+/* WORKAROUND */try{
                             // check pixel to the right, right-down, down, left-down
                             int thisPixel = map[row * swt.cols + col];
 
@@ -297,7 +309,7 @@ try{/* WORKAROUND */
                                         boost::add_edge(thisPixel, map.at((row+1) * swt.cols + col - 1), g);
                                 }
                             }
-}catch(std::exception e){}/* WORKAROUND */
+/* WORKAROUND */}catch(std::exception e){}
                         }
                     }
                 }

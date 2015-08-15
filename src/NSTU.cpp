@@ -12,7 +12,7 @@
 
 // Tesseract with Leptonica.
 #include <tesseract/baseapi.h>
-//#include <leptonica/allheaders.h>
+//#include <leptonica/allheaders.h> // Already included by tesseract.
 
 // Project headers.
 #include "TextDetection/TextDetector.h"
