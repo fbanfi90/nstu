@@ -47,7 +47,9 @@
 
 #define PI 3.14159265f
 
-namespace NSTU { namespace TextDetection { namespace AndrewPerraultAndSauravKumar {
+namespace NSTU {
+namespace TextDetection {
+namespace AndrewPerraultAndSauravKumar {
 
 std::vector<std::pair<CvPoint,CvPoint> > findBoundingBoxes( std::vector<std::vector<Point2d> > & components,
                                                            std::vector<Chain> & chains,
@@ -1134,4 +1136,6 @@ std::vector<Chain> makeChains( IplImage * colorImage,
     return chains;
 }
 
-}}}
+} // namespace AndrewPerraultAndSauravKumar
+} // namespace TextDetection
+} // namespace NSTU

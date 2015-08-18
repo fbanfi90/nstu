@@ -1,5 +1,4 @@
-#ifndef TAG_H_
-#define TAG_H_
+#pragma once
 
 // Definition of 'cv::Mat'.
 #include <opencv2/core/core.hpp>
@@ -8,53 +7,54 @@
 #include "../settings.h"
 #include "ISerializable.h"
 
-namespace NSTU
+namespace NSTU {
+namespace Tagging {
+
+class Tag : ISerializable
 {
-    class Tag : ISerializable
-    {
-    public:
+public:
 
-        // Default constructor.
-        Tag();
+    // Default constructor.
+    Tag();
 
-        // Tag constructor.
-        Tag(std::string text, cv::Rect region, int frameCount);
+    // Tag constructor.
+    Tag(std::string text, cv::Rect region, int frameCount);
 
-        // Write serialization.
-        void write(cv::FileStorage& fileStorage) const;
+    // Write serialization.
+    void write(cv::FileStorage& fileStorage) const;
 
-        // Read serialization.
-        void read(const cv::FileNode& fileNode);
+    // Read serialization.
+    void read(const cv::FileNode& fileNode);
 
-        // Out stream operator.
-        friend std::ostream& operator<<(std::ostream& stream, const Tag& tag);
+    // Out stream operator.
+    friend std::ostream& operator<<(std::ostream& stream, const Tag& tag);
 
-    public:
+public:
 
-        // The detected text.
-        std::string text;
+    // The detected text.
+    std::string text;
 
-        // The region relatice to the frame of the detected text.
-        cv::Rect region;
+    // The region relatice to the frame of the detected text.
+    cv::Rect region;
 
-        // Frame counter.
-        int frameCount;
-    };
+    // Frame counter.
+    int frameCount;
+};
 
-    // Must be defined for the serialization in FileStorage to work.
-    static void write(cv::FileStorage& fileStorage, const std::string&, const Tag& tag)
-    {
-        tag.write(fileStorage);
-    }
-
-    // Must be defined for the serialization in FileStorage to work.
-    static void read(const cv::FileNode& fileNode, Tag& tag, const Tag& defaultValue = Tag())
-    {
-        if (fileNode.empty())
-            tag = defaultValue;
-        else
-            tag.read(fileNode);
-    }
+// Must be defined for the serialization in FileStorage to work.
+static void write(cv::FileStorage& fileStorage, const std::string&, const Tag& tag)
+{
+    tag.write(fileStorage);
 }
 
-#endif
+// Must be defined for the serialization in FileStorage to work.
+static void read(const cv::FileNode& fileNode, Tag& tag, const Tag& defaultValue = Tag())
+{
+    if (fileNode.empty())
+        tag = defaultValue;
+    else
+        tag.read(fileNode);
+}
+
+} // namespace Tagging
+} // namespace NSTU

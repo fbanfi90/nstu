@@ -1,5 +1,4 @@
-#ifndef LOCATION_H_
-#define LOCATION_H_
+#pragma once
 
 // Standard C++.
 #include <iostream>
@@ -11,55 +10,56 @@
 #include "../settings.h"
 #include "ISerializable.h"
 
-namespace NSTU
+namespace NSTU {
+namespace Tagging {
+
+class Location : ISerializable
 {
-    class Location : ISerializable
-    {
-    public:
+public:
 
-        // Default constructor.
-        Location();
+    // Default constructor.
+    Location();
 
-        // Location constructor.
-        Location(std::string city, std::string region, std::string country, double latitude, double longitude, double altitude);
+    // Location constructor.
+    Location(std::string city, std::string region, std::string country, double latitude, double longitude, double altitude);
 
-        // The Location object representing current location.
-        static Location here();
+    // The Location object representing current location.
+    static Location here();
 
-        // Write serialization.
-        void write(cv::FileStorage& fileStorage) const;
+    // Write serialization.
+    void write(cv::FileStorage& fileStorage) const;
 
-        // Read serialization.
-        void read(const cv::FileNode& fileNode);
+    // Read serialization.
+    void read(const cv::FileNode& fileNode);
 
-        // Out stream operator.
-        friend std::ostream& operator<<(std::ostream& stream, const Location& location);
+    // Out stream operator.
+    friend std::ostream& operator<<(std::ostream& stream, const Location& location);
 
-    public:
+public:
 
-        // Location information.
-        std::string city;
-        std::string region;
-        std::string country;
-        double latitude;
-        double longitude;
-        double altitude;
-    };
+    // Location information.
+    std::string city;
+    std::string region;
+    std::string country;
+    double latitude;
+    double longitude;
+    double altitude;
+};
 
-    // Must be defined for the serialization in FileStorage to work.
-    static void write(cv::FileStorage& fs, const std::string&, const Location& location)
-    {
-        location.write(fs);
-    }
-
-    // Must be defined for the serialization in FileStorage to work.
-    static void read(const cv::FileNode& fileNode, Location& location, const Location& defaultValue = Location())
-    {
-        if (fileNode.empty())
-            location = defaultValue;
-        else
-            location.read(fileNode);
-    }
+// Must be defined for the serialization in FileStorage to work.
+static void write(cv::FileStorage& fs, const std::string&, const Location& location)
+{
+    location.write(fs);
 }
 
-#endif
+// Must be defined for the serialization in FileStorage to work.
+static void read(const cv::FileNode& fileNode, Location& location, const Location& defaultValue = Location())
+{
+    if (fileNode.empty())
+        location = defaultValue;
+    else
+        location.read(fileNode);
+}
+
+} // namespace Tagging
+} // namespace NSTU

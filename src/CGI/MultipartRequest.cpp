@@ -1,5 +1,8 @@
 #include "CGI/MultipartRequest.h"
 
+namespace NSTU {
+namespace CGI {
+
 bool
 MultipartRequest::_readField(char * & data, long & length, long & index, char * end)
 {
@@ -504,3 +507,5 @@ MultipartRequest::~MultipartRequest()
 		delete _elementVec[i];
 }
 
+} // namespace CGI
+} // namespace NSTU

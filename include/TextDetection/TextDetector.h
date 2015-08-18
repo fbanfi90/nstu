@@ -1,5 +1,4 @@
-#ifndef TEXT_DETECTOR_H_
-#define TEXT_DETECTOR_H_
+#pragma once
 
 // Standard C++.
 #include <iostream>
@@ -10,29 +9,27 @@
 // Project headers.
 #include "../settings.h"
 
-namespace NSTU
+namespace NSTU {
+namespace TextDetection {
+
+class TextDetector
 {
-    namespace TextDetection
-    {
-        class TextDetector
-        {
-        public:
+public:
 
-            // Algorithm selector.
-            /*static*/ enum Algorithm { FabioBanfi, TiRG, AndrewPerraultAndSauravKumar };
+    // Algorithm selector.
+    /*static*/ enum Algorithm { FabioBanfi, TiRG, AndrewPerraultAndSauravKumar };
 
-            // Detect text in an image using a specified algorithm.
-            std::vector<cv::Rect> getTextRegions(const cv::Mat& image, Algorithm algorithm) const;
+    // Detect text in an image using a specified algorithm.
+    std::vector<cv::Rect> getTextRegions(const cv::Mat& image, Algorithm algorithm) const;
 
-        private:
+private:
 
-            // TiRG wrapper.
-            std::vector<cv::Rect> TiRGwrapper(const cv::Mat& image) const;
+    // TiRG wrapper.
+    std::vector<cv::Rect> TiRGwrapper(const cv::Mat& image) const;
 
-            // Andrew Perrault and Saurav Kumar wrapper.
-            std::vector<cv::Rect> AndrewPerraultAndSauravKumarWrapper(const cv::Mat& image) const;
-        };
-    }
-}
+    // Andrew Perrault and Saurav Kumar wrapper.
+    std::vector<cv::Rect> AndrewPerraultAndSauravKumarWrapper(const cv::Mat& image) const;
+};
 
-#endif
+} // namespace TextDetection
+} // namespace NSTU

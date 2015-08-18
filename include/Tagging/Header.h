@@ -1,5 +1,4 @@
-#ifndef HEADER_H_
-#define HEADER_H_
+#pragma once
 
 // Standard C++.
 #include <iostream>
@@ -13,49 +12,50 @@
 #include "DateTime.h"
 #include "Location.h"
 
-namespace NSTU
+namespace NSTU {
+namespace Tagging {
+
+class Header : ISerializable
 {
-    class Header : ISerializable
-    {
-    public:
+public:
 
-        // Default constructor.
-        Header();
+    // Default constructor.
+    Header();
 
-        // Location constructor.
-        Header(std::string fileName, DateTime dateTime, Location location);
+    // Location constructor.
+    Header(std::string fileName, DateTime dateTime, Location location);
 
-        // Write serialization.
-        void write(cv::FileStorage& fileStorage) const;
+    // Write serialization.
+    void write(cv::FileStorage& fileStorage) const;
 
-        // Read serialization.
-        void read(const cv::FileNode& fileNode);
+    // Read serialization.
+    void read(const cv::FileNode& fileNode);
 
-        // Out stream operator.
-        friend std::ostream& operator<<(std::ostream& stream, const Header& header);
+    // Out stream operator.
+    friend std::ostream& operator<<(std::ostream& stream, const Header& header);
 
-    public:
+public:
 
-        // Location information.
-        std::string fileName;
-        DateTime dateTime;
-        Location location;
-    };
+    // Location information.
+    std::string fileName;
+    DateTime dateTime;
+    Location location;
+};
 
-    // Must be defined for the serialization in FileStorage to work.
-    static void write(cv::FileStorage& fileStorage, const std::string&, const Header& header)
-    {
-        header.write(fileStorage);
-    }
-
-    // Must be defined for the serialization in FileStorage to work.
-    static void read(const cv::FileNode& fileNode, Header& header, const Header& defaultValue = Header())
-    {
-        if (fileNode.empty())
-            header = defaultValue;
-        else
-            header.read(fileNode);
-    }
+// Must be defined for the serialization in FileStorage to work.
+static void write(cv::FileStorage& fileStorage, const std::string&, const Header& header)
+{
+    header.write(fileStorage);
 }
 
-#endif
+// Must be defined for the serialization in FileStorage to work.
+static void read(const cv::FileNode& fileNode, Header& header, const Header& defaultValue = Header())
+{
+    if (fileNode.empty())
+        header = defaultValue;
+    else
+        header.read(fileNode);
+}
+
+} // namespace Tagging
+} // namespace NSTU

@@ -1,5 +1,4 @@
-#ifndef RAY_H_
-#define RAY_H_
+#pragma once
 
 // Standard C++.
 #include <vector>
@@ -8,20 +7,17 @@
 #include "../settings.h"
 #include "ValuePoint.hpp"
 
-namespace  NSTU
-{
-    namespace TextDetection
-    {
-        namespace FabioBanfi
-        {
-            struct Ray
-            {
-                ValuePoint p;
-                ValuePoint q;
-                std::vector<ValuePoint> points;
-            };
-        }
-    }
-}
+namespace NSTU {
+namespace TextDetection {
+namespace FabioBanfi {
 
-#endif
+struct Ray
+{
+    ValuePoint p;
+    ValuePoint q;
+    std::vector<ValuePoint> points;
+};
+
+} // namespace FabioBanfi
+} // namespace TextDetection
+} // namespace NSTU

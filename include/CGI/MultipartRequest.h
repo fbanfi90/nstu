@@ -21,11 +21,14 @@
 #include <list>
 #include <map>
 
+namespace NSTU {
+namespace CGI {
+
 using namespace std;
 
 //
-// This class is a CGI based file upload system.  This 
-// software is free.  If you like this class plase send 
+// This class is a CGI based file upload system.  This
+// software is free.  If you like this class plase send
 // an email to matthewcoan@hotmail.com
 //
 // Author:		Matthew W. Coan (matthewcoan@hotmail.com)
@@ -42,14 +45,14 @@ public:
 		char * _type;
 		char * _data;
 		long _length;
-		
+
 	public:
 		FormElement()
-		:_name(0), _fileName(0), 
-		 _type(0), _data(0), 
+		:_name(0), _fileName(0),
+		 _type(0), _data(0),
 		 _length(0), _localFileName(0)
 		{}
-		
+
 		~FormElement()
 		{
 			if(_name)
@@ -61,7 +64,7 @@ public:
 			if(_data)
 				delete [] _data;
 		}
-		
+
 		char * name() { return _name; }
 		char * fileName() { return _fileName; }
 		char * localFileName() { return _localFileName; }
@@ -80,19 +83,19 @@ public:
 	class ArrayDeleter {
 		char * _array;
 	public:
-		ArrayDeleter(char * p = 0) 
-		: _array(p) 
+		ArrayDeleter(char * p = 0)
+		: _array(p)
 		{ }
-		
+
 		~ArrayDeleter() {
 			if(_array)
 				delete [] _array;
 		}
-		
+
 		void release() {
 			_array = 0;
 		}
-		
+
 		void reset(char * p = 0) {
 			if(_array)
 				delete [] _array;
@@ -113,7 +116,7 @@ private:
 	MapType _map;
 	long _max;
 	long _contentLength;
-	
+
 	void _parseContent();
 	char * _readLine();
 	char * _readLine(size_t & sz);
@@ -135,21 +138,21 @@ public:
 	// max - the maximum upload
 	//
 	MultipartRequest(char * dir, long max = MAX_FILE);
-	
+
 	//
 	// Free memeory
 	//
 	~MultipartRequest();
-	
+
 	//
 	// Look up a form element
 	//
-	FormElement * operator[](char * name) { return _map[name]; }	
-	
+	FormElement * operator[](char * name) { return _map[name]; }
+
 	//
 	// Access the vector of elements
 	//
-	FormElement * operator[](size_t index) { return _elementVec[index]; }	
+	FormElement * operator[](size_t index) { return _elementVec[index]; }
 
 	//
 	// Return the number of form elements
@@ -160,17 +163,20 @@ public:
 	// Return the error code
 	//
 	ErrorCode errorCode() { return _errorCode; }
-	
+
 	//
 	// Content length
 	//
 	long contentLength() { return _contentLength; }
-	
+
 	//
 	// Max upload
 	//
 	long maxUpload() { return _max; }
 };
+
+} // namespace CGI
+} // namespace NSTU
 
 #endif /* _MPR_H */
 

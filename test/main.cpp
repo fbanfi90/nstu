@@ -69,13 +69,13 @@ int main()
     std::string error;
 
     // Process the multipart request.
-    MultipartRequest req("../../nstu/upload/");
+    CGI::MultipartRequest req("../../nstu/upload/");
 
     // Check for errors.
-    if (req.errorCode() == MultipartRequest::MPR_NO_ERROR)
+    if (req.errorCode() == CGI::MultipartRequest::MPR_NO_ERROR)
     {
         // Get a pointer to the data file element.
-        MultipartRequest::FormElement* pElement = req["file"];
+        CGI::MultipartRequest::FormElement* pElement = req["file"];
 
         // Check whether the file was found.
         if (pElement)
@@ -179,19 +179,19 @@ int main()
     {
         switch(req.errorCode())
         {
-        case MultipartRequest::IO_ERROR: // I/O error occurred.
+        case CGI::MultipartRequest::IO_ERROR: // I/O error occurred.
             error = "IO error.";
             break;
 
-        case MultipartRequest::PARSE_ERROR: // Multipart request parse error.
+        case CGI::MultipartRequest::PARSE_ERROR: // Multipart request parse error.
             error = "Parse error.";
             break;
 
-        case MultipartRequest::MAX_UPLOAD: // Maximum file upload size.
+        case CGI::MultipartRequest::MAX_UPLOAD: // Maximum file upload size.
             error = "Max upload size reached.";
             break;
 
-        case MultipartRequest::CGI_ERROR: // CGI error.
+        case CGI::MultipartRequest::CGI_ERROR: // CGI error.
             error = "CGI error.";
             break;
         }

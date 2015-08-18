@@ -16,12 +16,14 @@
     You should have received a copy of the GNU General Public License
     along with DetectText.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef ANDREW_PERRAULT_AND_SAURAV_KUMAR
-#define ANDREW_PERRAULT_AND_SAURAV_KUMAR
+
+#pragma once
 
 #include <opencv/cv.h>
 
-namespace NSTU { namespace TextDetection { namespace AndrewPerraultAndSauravKumar {
+namespace NSTU {
+namespace TextDetection {
+namespace AndrewPerraultAndSauravKumar {
 
 struct Point2d {
     int x;
@@ -100,7 +102,7 @@ std::vector<Chain> makeChains( IplImage * colorImage,
                  std::vector<Point2d> & compDimensions,
                  std::vector<std::pair<Point2d,Point2d> > & compBB);
 
-}}}
-
-#endif // TEXTDETECTION_H
+} // namespace AndrewPerraultAndSauravKumar
+} // namespace TextDetection
+} // namespace NSTU
 

@@ -1,12 +1,15 @@
 // Source: http://tirg.sourceforge.net/.
-// Adapted lines: 49-54, 154-157, 159-164.
+// Adapted lines: 52-57, 157-160, 162-167.
 #include <math.h>
 #include <stdio.h>
 #include <algorithm>
 #include <vector>
 #include <set>
 
-namespace NSTU { namespace TextDetection { namespace trg {
+namespace NSTU {
+namespace TextDetection {
+namespace trg {
+
 //---------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------
 typedef unsigned char UC;
@@ -314,5 +317,6 @@ std::vector<Rect> get_textlike_regions(const std::vector<std::vector<Rgb> > &raw
 
 //---------------------------------------------------------------------------------------------
 
-
-}}} // End of namespace trg;
+} // namespace FabioBanfi
+} // namespace TextDetection
+} // namespace NSTU

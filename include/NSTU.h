@@ -1,5 +1,4 @@
-#ifndef NSTR_H_
-#define NSTR_H_
+#pragma once
 
 // Standard C++.
 #include <iostream>
@@ -17,16 +16,15 @@
 #include "TextDetection/TextDetector.h"
 #include "Tagging/Tagger.h"
 
-namespace  NSTU
-{
-    // Open an image file and extract text from it.
-    void processImage(const std::string& inputFileName, const std::string& outputFilePath);
+namespace  NSTU {
 
-    // Open a video file and extract text from it.
-    void processVideo(const std::string& inputFileName, const std::string& outputFilePath);
+// Open an image file and extract text from it.
+void processImage(const std::string& inputFileName, const std::string& outputFilePath);
 
-    // TEST: open a camera stream and extract text from it.
-    void processCamera(const std::string& outputFilePath);
-}
+// Open a video file and extract text from it.
+void processVideo(const std::string& inputFileName, const std::string& outputFilePath);
 
-#endif
+// TEST: open a camera stream and extract text from it.
+void processCamera(const std::string& outputFilePath);
+
+} // namespace NSTU

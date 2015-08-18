@@ -1,5 +1,4 @@
-#ifndef ISERIALIZABLE_H_
-#define ISERIALIZABLE_H_
+#pragma once
 
 // OpenCV.
 #include <opencv2/core/core.hpp>
@@ -7,16 +6,17 @@
 // Project headers.
 #include "../settings.h"
 
-namespace NSTU
+namespace NSTU {
+namespace Tagging {
+
+class ISerializable
 {
-    class ISerializable
-    {
-        // Write serialization.
-        virtual void write(cv::FileStorage& fileStorage) const = 0;
+    // Write serialization.
+    virtual void write(cv::FileStorage& fileStorage) const = 0;
 
-        // Read serialization.
-        virtual void read(const cv::FileNode& fileNode) = 0;
-    };
-}
+    // Read serialization.
+    virtual void read(const cv::FileNode& fileNode) = 0;
+};
 
-#endif
+} // namespace Tagging
+} // namespace NSTU

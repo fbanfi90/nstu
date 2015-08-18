@@ -1,5 +1,4 @@
-#ifndef TAGGER_H_
-#define TAGGER_H_
+#pragma once
 
 // Standard C++.
 #include <iostream>
@@ -11,26 +10,27 @@
 // Project headers.
 #include "../settings.h"
 
-namespace  NSTU
+namespace NSTU {
+namespace Tagging {
+
+class Tagger
 {
-    class Tagger
-    {
-    public:
-        
-        // Tagger constructor ('.xml' for XML, '.yaml', '.yml' or '.txt' for YAML).
-        explicit Tagger(const std::string& inputFilePath, const std::string& outputFilePath);
+public:
 
-        // Deconstructor.
-        ~Tagger();
+    // Tagger constructor ('.xml' for XML, '.yaml', '.yml' or '.txt' for YAML).
+    explicit Tagger(const std::string& inputFilePath, const std::string& outputFilePath);
 
-        // Add a text tag.
-        void addTextTag(const std::string& text, const cv::Rect& region, int frameCount);
+    // Deconstructor.
+    ~Tagger();
 
-    private:
+    // Add a text tag.
+    void addTextTag(const std::string& text, const cv::Rect& region, int frameCount);
 
-        // File storage stream;
-        cv::FileStorage* fileStorage;
-    };
-}
+private:
 
-#endif
+    // File storage stream;
+    cv::FileStorage* fileStorage;
+};
+
+} // namespace Tagging
+} // namespace NSTU

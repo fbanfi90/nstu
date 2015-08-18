@@ -3,49 +3,51 @@
 // OpenCV.
 #include <opencv2/core/core.hpp>
 
-namespace NSTU
+namespace NSTU {
+namespace Tagging {
+
+// Default constructor.
+Tag::Tag() : text(), region()
 {
-    // Default constructor.
-    Tag::Tag() : text(), region()
-    {
-    }
-
-    // Constructor.
-    Tag::Tag(std::string text, cv::Rect region, int frameCount) : text(text), region(region), frameCount(frameCount)
-    {
-    }
-
-    // Write serialization.
-    void Tag::write(cv::FileStorage& fileStorage) const
-    {
-        fileStorage << "{";
-        fileStorage << "Text" << text;
-        fileStorage << "Region" << region;
-        fileStorage << "FrameCount" << frameCount;
-        fileStorage << "}";
-    }
-
-    // Read serialization.
-    void Tag::read(const cv::FileNode& fileNode)
-    {
-        text = (std::string)fileNode["Text"];
-
-        // Workaround because cv::Rect hasn't defined read.
-        std::vector<int> rect;
-        fileNode["Region"] >> rect;
-        region = cv::Rect(rect[0], rect[1], rect[2], rect[3]);
-
-        frameCount = (int)fileNode["FrameCount"];
-    }
-
-    // Out stream operator.
-    std::ostream& operator<<(std::ostream& stream, const Tag& tag)
-    {
-        // Create string representation.
-        stream << "Frame " << tag.frameCount << ", region " << tag.region << ":\t" << tag.text;
-
-        // Return the modified stream.
-        return stream;
-    }
 }
 
+// Constructor.
+Tag::Tag(std::string text, cv::Rect region, int frameCount) : text(text), region(region), frameCount(frameCount)
+{
+}
+
+// Write serialization.
+void Tag::write(cv::FileStorage& fileStorage) const
+{
+    fileStorage << "{";
+    fileStorage << "Text" << text;
+    fileStorage << "Region" << region;
+    fileStorage << "FrameCount" << frameCount;
+    fileStorage << "}";
+}
+
+// Read serialization.
+void Tag::read(const cv::FileNode& fileNode)
+{
+    text = (std::string)fileNode["Text"];
+
+    // Workaround because cv::Rect hasn't defined read.
+    std::vector<int> rect;
+    fileNode["Region"] >> rect;
+    region = cv::Rect(rect[0], rect[1], rect[2], rect[3]);
+
+    frameCount = (int)fileNode["FrameCount"];
+}
+
+// Out stream operator.
+std::ostream& operator<<(std::ostream& stream, const Tag& tag)
+{
+    // Create string representation.
+    stream << "Frame " << tag.frameCount << ", region " << tag.region << ":\t" << tag.text;
+
+    // Return the modified stream.
+    return stream;
+}
+
+} // namespace Tagging
+} // namespace NSTU
